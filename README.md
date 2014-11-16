@@ -73,3 +73,7 @@ Copy-paste it to a javascript file (like 'templates.js'), and use its functions 
     templates.greet(['Andrew', 'Betty', 'Charles']);
 </script>
 ```
+
+## Github page
+
+http://joaoventura.github.io/temple.js/
