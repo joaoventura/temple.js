@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Temple.js : Template compiler">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Temple.js</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/joaoventura/temple.js">View on GitHub</a>
+
+          <h1 id="project_title">Temple.js</h1>
+          <h2 id="project_tagline">Template compiler</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/joaoventura/temple.js/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/joaoventura/temple.js/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a id="templejs" class="anchor" href="#templejs" aria-hidden="true"><span class="octicon octicon-link"></span></a>Temple.js</h1>
+
+<p>Temple.js is a small javascript browser library for compiling templates to functions.
+It is intended to be used on development. When you are ready for production, compile your templates to a javascript file, and use them the same way.</p>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>Define your templates directly in your html code, or on an external file:</p>
+
+<div class="highlight highlight-html"><pre>&lt;<span class="pl-ent">script</span> <span class="pl-eoai">id</span>=<span class="pl-s1"><span class="pl-pds">'</span>my-templates<span class="pl-pds">'</span></span> <span class="pl-eoa">type</span>=<span class="pl-s1"><span class="pl-pds">'</span>text/template<span class="pl-pds">'</span></span>&gt;
+
+    &lt;<span class="pl-ent">template</span> <span class="pl-eoa">name</span>=<span class="pl-s1"><span class="pl-pds">'</span>message<span class="pl-pds">'</span></span>  <span class="pl-eoa">arg</span>=<span class="pl-s1"><span class="pl-pds">'</span>name<span class="pl-pds">'</span></span>&gt;
+        &lt;<span class="pl-ent">li</span>&gt;Hello {{=name}}&lt;/<span class="pl-ent">li</span>&gt;
+    &lt;/<span class="pl-ent">template</span>&gt;
+
+    &lt;<span class="pl-ent">template</span> <span class="pl-eoa">name</span>=<span class="pl-s1"><span class="pl-pds">'</span>greet<span class="pl-pds">'</span></span> <span class="pl-eoa">arg</span>=<span class="pl-s1"><span class="pl-pds">'</span>names<span class="pl-pds">'</span></span>&gt;
+        &lt;<span class="pl-ent">ul</span>&gt;
+        {{for (var i=0; i&lt;<span class="pl-ent">names</span>.<span class="pl-eoa">length</span>; <span class="pl-eoa">i</span>++) { }}
+            {{=<span class="pl-s1">this.message(names[i])}}</span>
+        {{ } }}
+        &lt;/<span class="pl-eoa">ul</span>&gt;
+    &lt;/<span class="pl-ent">template</span>&gt;
+
+&lt;/<span class="pl-ent">script</span>&gt;
+</pre></div>
+
+<p>Compile your templates directly to javascript functions and use them as regular javascript:</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-s">var</span> templates <span class="pl-ko">=</span> temple.fromID(<span class="pl-s1"><span class="pl-pds">'</span>my-templates<span class="pl-pds">'</span></span>);
+templates.greet([<span class="pl-s1"><span class="pl-pds">'</span>Andrew<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>Betty<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>Charles<span class="pl-pds">'</span></span>]);
+
+<span class="pl-ko">&gt;</span> <span class="pl-ko">&lt;</span>ul<span class="pl-ko">&gt;</span>
+    <span class="pl-ko">&lt;</span>li<span class="pl-ko">&gt;</span>Hello Andrew<span class="pl-ko">&lt;</span>/li<span class="pl-ko">&gt;</span>
+    <span class="pl-ko">&lt;</span>li<span class="pl-ko">&gt;</span>Hello Betty<span class="pl-ko">&lt;</span>/li<span class="pl-ko">&gt;</span>
+    <span class="pl-ko">&lt;</span>li<span class="pl-ko">&gt;</span>Hello Charles<span class="pl-ko">&lt;</span>/li<span class="pl-ko">&gt;</span>
+  <span class="pl-ko">&lt;</span>/ul<span class="pl-ko">&gt;</span>
+</pre></div>
+
+<p>When you are ready for production, generate the javascript source code:</p>
+
+<div class="highlight highlight-javascript"><pre>
+temple.stringFromID(<span class="pl-s1"><span class="pl-pds">'</span>my-templates<span class="pl-pds">'</span></span>);
+
+<span class="pl-ko">&gt;</span> <span class="pl-s">var</span> templates <span class="pl-ko">=</span> {};
+  <span class="pl-sc">templates</span>.<span class="pl-enf">message</span> <span class="pl-ko">=</span> <span class="pl-s">function</span> (<span class="pl-vpf">name</span>) {
+      <span class="pl-s">var</span> out <span class="pl-ko">=</span> <span class="pl-s1"><span class="pl-pds">'</span>&lt;li&gt;Hello <span class="pl-pds">'</span></span> <span class="pl-ko">+</span> (name) <span class="pl-ko">+</span> <span class="pl-s1"><span class="pl-pds">'</span>&lt;/li&gt;<span class="pl-pds">'</span></span>;
+      <span class="pl-k">return</span> out;
+  };
+  <span class="pl-sc">templates</span>.<span class="pl-enf">greet</span> <span class="pl-ko">=</span> <span class="pl-s">function</span> (<span class="pl-vpf">names</span>) {
+      <span class="pl-s">var</span> out <span class="pl-ko">=</span> <span class="pl-s1"><span class="pl-pds">'</span>&lt;ul&gt;<span class="pl-pds">'</span></span>;
+      <span class="pl-k">for</span> (<span class="pl-s">var</span> i <span class="pl-ko">=</span> <span class="pl-cn">0</span>; i <span class="pl-ko">&lt;</span> names.length; i<span class="pl-ko">++</span>) {
+          out <span class="pl-ko">+=</span> (<span class="pl-v">this</span>.message(names[i]));
+      }
+      out <span class="pl-ko">+=</span> <span class="pl-s1"><span class="pl-pds">'</span>&lt;/ul&gt;<span class="pl-pds">'</span></span>;
+      <span class="pl-k">return</span> out;
+  };
+
+</pre></div>
+
+<p>Copy-paste it to a javascript file (like 'templates.js'), and use its functions like in any other javascript file.</p>
+
+<div class="highlight highlight-html"><pre>&lt;<span class="pl-ent">script</span> <span class="pl-eoa">src</span>=<span class="pl-s1"><span class="pl-pds">'</span>templates.js<span class="pl-pds">'</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;
+<span class="pl-s2">&lt;<span class="pl-ent">script</span>&gt;</span>
+<span class="pl-s2">    templates.greet([<span class="pl-s1"><span class="pl-pds">'</span>Andrew<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>Betty<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>Charles<span class="pl-pds">'</span></span>]);</span>
+<span class="pl-s2">&lt;/<span class="pl-ent">script</span>&gt;</span></pre></div>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Temple.js maintained by <a href="https://github.com/joaoventura">joaoventura</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
