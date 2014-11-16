@@ -33,7 +33,12 @@ Compile your templates directly to javascript functions and use them as regular 
 ```javascript
 var templates = temple.fromID('my-templates');
 templates.greet(['Andrew', 'Betty', 'Charles']);
-> <ul><li>Hello Andrew</li><li>Hello Betty</li><li>Hello Charles</li></ul>
+
+> <ul>
+    <li>Hello Andrew</li>
+    <li>Hello Betty</li>
+    <li>Hello Charles</li>
+  </ul>
 
 ```
 
@@ -43,19 +48,19 @@ When you are ready for production, generate the javascript source code:
 
 temple.stringFromID('my-templates');
 
->var templates = {};
->templates.message = function (name) {
->    var out = '<li>Hello ' + (name) + '</li>';
->    return out;
->};
->templates.greet = function (names) {
->    var out = '<ul>';
->    for (var i = 0; i < names.length; i++) {
->        out += (this.message(names[i]));
->    }
->    out += '</ul>';
->    return out;
->};
+> var templates = {};
+  templates.message = function (name) {
+      var out = '<li>Hello ' + (name) + '</li>';
+      return out;
+  };
+  templates.greet = function (names) {
+      var out = '<ul>';
+      for (var i = 0; i < names.length; i++) {
+          out += (this.message(names[i]));
+      }
+      out += '</ul>';
+      return out;
+  };
 
 
 ```
