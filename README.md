@@ -81,7 +81,7 @@ Copy-paste it to a javascript file (e.g. 'templates.js'), and use its functions 
 </script>
 ```
 
-You can also use the generator at site/index.html to compile your templates to javascript source code.
+You can also use the [online generator](http://joaoventura.github.io/temple.js/generator/index.html) to compile your templates to javascript source code.
 
 
 ## Documentation
@@ -153,4 +153,5 @@ For external files, use *fromURL(url, callback)* to load the external file async
 
 ## Github page
 
-http://joaoventura.github.io/temple.js/
+Page: http://joaoventura.github.io/temple.js/
+Online generator: http://joaoventura.github.io/temple.js/generator/index.html
