@@ -12,7 +12,7 @@ Define your templates directly in your html code, or on an external file:
 ```html
 <script id='my-templates' type='text/template'>
 
-    <template name='message'  arg='name'>
+    <template name='message' arg='name'>
         <li>Hello {{=name}}</li>
     </template>
 
@@ -82,6 +82,72 @@ Copy-paste it to a javascript file (e.g. 'templates.js'), and use its functions 
 ```
 
 You can also use the generator at site/index.html to compile your templates to javascript source code.
+
+
+## Documentation
+
+### Templates
+
+A template is defined as a string between a <template> tag and includes two attributes - the template name and the template argument. Current version only accepts one argument per template.
+
+```html
+<template name='message' arg='name'>
+    <li>Hello {{=name}}</li>
+</template>
+```
+
+The previous template gets compiled to the following javascript function:
+
+```javascript
+function message(name) {
+    var out = '<li>Hello ' + (name) + '</li>';
+    return out;
+};
+```
+
+### Functions
+
+Besides templates, you can also define functions that can be useful, for instance, for defining presentation logic.
+The main difference between functions and templates, is that the content of functions must be pure javascript code. But, similarly to templates, functions must have a name and an argument.
+
+```html
+<function name='beautify' arg='someone'>
+    return "Hi" + someone + " you are beautiful!";
+</function>
+```
+
+is compiled to:
+
+```javascript
+function beautify(someone) {
+    return "Hi" + someone + " you are beautiful!";
+};
+```
+
+Basically, temple.js returns the contents of functions as they are defined.
+
+
+### Template locations
+
+You can define one or more templates inside the html document (for instance, inside a script element with the text attribute to something other than 'text/javascript'), or on an external file.
+
+For external files, use *fromURL(url, callback)* to load the external file asynchronously.
+
+
+### Temple.js functions
+
+* fromID(id): Loads templates from an element and returns them as compiled javascript functions ready for use.
+
+* fromURL(url, callback): Loads templates from an external file and returns them as compiled javascript functions ready for use.
+
+* stringFromID(ID): Loads templates from an element and returns them as javascript source code to be used on production.
+
+* stringFromURL(url, callback): Loads templates from an external file and returns them as javascript source code to be used on production.
+
+* build(string): Parses a string with templates and returns compiled javascript.
+
+* buildString(string): Parses a string with templates and returns javascript source code.
+
 
 
 
