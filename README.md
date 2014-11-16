@@ -131,7 +131,7 @@ Basically, temple.js returns the contents of functions as they are defined.
 
 You can define one or more templates inside the html document (for instance, inside a script element with the text attribute to something other than 'text/javascript'), or on an external file.
 
-For external files, use *fromURL(url, callback)* to load the external file asynchronously.
+For external files, use *fromURL(url, callback)* to load the external file asynchronously. Check [this file with several templates and functions](https://github.com/joaoventura/temple.js/blob/master/site/templates.html) for an example.
 
 
 ### Temple.js functions
