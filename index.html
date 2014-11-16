@@ -38,7 +38,7 @@
 It is intended to be used on development. When you are ready for production, compile your templates to a javascript file, and use them the same way.</p>
 
 <h2>
-<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
+<a id="development---usage" class="anchor" href="#development---usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Development - Usage</h2>
 
 <p>Define your templates directly in your html code, or on an external file:</p>
 
@@ -59,45 +59,55 @@ It is intended to be used on development. When you are ready for production, com
 &lt;/<span class="pl-ent">script</span>&gt;
 </pre></div>
 
-<p>Compile your templates directly to javascript functions and use them as regular javascript:</p>
+<p>Compile your templates to javascript functions and invoke them directly:</p>
 
 <div class="highlight highlight-javascript"><pre><span class="pl-s">var</span> templates <span class="pl-ko">=</span> temple.fromID(<span class="pl-s1"><span class="pl-pds">'</span>my-templates<span class="pl-pds">'</span></span>);
-templates.greet([<span class="pl-s1"><span class="pl-pds">'</span>Andrew<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>Betty<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>Charles<span class="pl-pds">'</span></span>]);
+templates.greet([<span class="pl-s1"><span class="pl-pds">'</span>Andrew<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>Betty<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>Charles<span class="pl-pds">'</span></span>]);</pre></div>
 
-<span class="pl-ko">&gt;</span> <span class="pl-ko">&lt;</span>ul<span class="pl-ko">&gt;</span>
-    <span class="pl-ko">&lt;</span>li<span class="pl-ko">&gt;</span>Hello Andrew<span class="pl-ko">&lt;</span>/li<span class="pl-ko">&gt;</span>
-    <span class="pl-ko">&lt;</span>li<span class="pl-ko">&gt;</span>Hello Betty<span class="pl-ko">&lt;</span>/li<span class="pl-ko">&gt;</span>
-    <span class="pl-ko">&lt;</span>li<span class="pl-ko">&gt;</span>Hello Charles<span class="pl-ko">&lt;</span>/li<span class="pl-ko">&gt;</span>
-  <span class="pl-ko">&lt;</span>/ul<span class="pl-ko">&gt;</span>
+<div class="highlight highlight-html"><pre>&lt;<span class="pl-ent">ul</span>&gt;
+    &lt;<span class="pl-ent">li</span>&gt;Hello Andrew&lt;/<span class="pl-ent">li</span>&gt;
+    &lt;<span class="pl-ent">li</span>&gt;Hello Betty&lt;/<span class="pl-ent">li</span>&gt;
+    &lt;<span class="pl-ent">li</span>&gt;Hello Charles&lt;/<span class="pl-ent">li</span>&gt;
+&lt;/<span class="pl-ent">ul</span>&gt;
 </pre></div>
+
+<h2>
+<a id="production---generate-javascript-source" class="anchor" href="#production---generate-javascript-source" aria-hidden="true"><span class="octicon octicon-link"></span></a>Production - Generate javascript source</h2>
 
 <p>When you are ready for production, generate the javascript source code:</p>
 
-<div class="highlight highlight-javascript"><pre>
-temple.stringFromID(<span class="pl-s1"><span class="pl-pds">'</span>my-templates<span class="pl-pds">'</span></span>);
+<div class="highlight highlight-javascript"><pre>temple.stringFromID(<span class="pl-s1"><span class="pl-pds">'</span>my-templates<span class="pl-pds">'</span></span>);</pre></div>
 
-<span class="pl-ko">&gt;</span> <span class="pl-s">var</span> templates <span class="pl-ko">=</span> {};
-  <span class="pl-sc">templates</span>.<span class="pl-enf">message</span> <span class="pl-ko">=</span> <span class="pl-s">function</span> (<span class="pl-vpf">name</span>) {
-      <span class="pl-s">var</span> out <span class="pl-ko">=</span> <span class="pl-s1"><span class="pl-pds">'</span>&lt;li&gt;Hello <span class="pl-pds">'</span></span> <span class="pl-ko">+</span> (name) <span class="pl-ko">+</span> <span class="pl-s1"><span class="pl-pds">'</span>&lt;/li&gt;<span class="pl-pds">'</span></span>;
-      <span class="pl-k">return</span> out;
-  };
-  <span class="pl-sc">templates</span>.<span class="pl-enf">greet</span> <span class="pl-ko">=</span> <span class="pl-s">function</span> (<span class="pl-vpf">names</span>) {
-      <span class="pl-s">var</span> out <span class="pl-ko">=</span> <span class="pl-s1"><span class="pl-pds">'</span>&lt;ul&gt;<span class="pl-pds">'</span></span>;
-      <span class="pl-k">for</span> (<span class="pl-s">var</span> i <span class="pl-ko">=</span> <span class="pl-cn">0</span>; i <span class="pl-ko">&lt;</span> names.length; i<span class="pl-ko">++</span>) {
-          out <span class="pl-ko">+=</span> (<span class="pl-v">this</span>.message(names[i]));
-      }
-      out <span class="pl-ko">+=</span> <span class="pl-s1"><span class="pl-pds">'</span>&lt;/ul&gt;<span class="pl-pds">'</span></span>;
-      <span class="pl-k">return</span> out;
-  };
+<div class="highlight highlight-javascript"><pre><span class="pl-s">var</span> templates <span class="pl-ko">=</span> {};
 
+<span class="pl-sc">templates</span>.<span class="pl-enf">message</span> <span class="pl-ko">=</span> <span class="pl-s">function</span> (<span class="pl-vpf">name</span>) {
+    <span class="pl-s">var</span> out <span class="pl-ko">=</span> <span class="pl-s1"><span class="pl-pds">'</span>&lt;li&gt;Hello <span class="pl-pds">'</span></span> <span class="pl-ko">+</span> (name) <span class="pl-ko">+</span> <span class="pl-s1"><span class="pl-pds">'</span>&lt;/li&gt;<span class="pl-pds">'</span></span>;
+    <span class="pl-k">return</span> out;
+};
+
+<span class="pl-sc">templates</span>.<span class="pl-enf">greet</span> <span class="pl-ko">=</span> <span class="pl-s">function</span> (<span class="pl-vpf">names</span>) {
+    <span class="pl-s">var</span> out <span class="pl-ko">=</span> <span class="pl-s1"><span class="pl-pds">'</span>&lt;ul&gt;<span class="pl-pds">'</span></span>;
+    <span class="pl-k">for</span> (<span class="pl-s">var</span> i <span class="pl-ko">=</span> <span class="pl-cn">0</span>; i <span class="pl-ko">&lt;</span> names.length; i<span class="pl-ko">++</span>) {
+        out <span class="pl-ko">+=</span> (<span class="pl-v">this</span>.message(names[i]));
+    }
+    out <span class="pl-ko">+=</span> <span class="pl-s1"><span class="pl-pds">'</span>&lt;/ul&gt;<span class="pl-pds">'</span></span>;
+    <span class="pl-k">return</span> out;
+};
 </pre></div>
 
-<p>Copy-paste it to a javascript file (like 'templates.js'), and use its functions like in any other javascript file.</p>
+<p>Copy-paste it to a javascript file (e.g. 'templates.js'), and use its functions like in any other javascript file.</p>
 
 <div class="highlight highlight-html"><pre>&lt;<span class="pl-ent">script</span> <span class="pl-eoa">src</span>=<span class="pl-s1"><span class="pl-pds">'</span>templates.js<span class="pl-pds">'</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;
 <span class="pl-s2">&lt;<span class="pl-ent">script</span>&gt;</span>
 <span class="pl-s2">    templates.greet([<span class="pl-s1"><span class="pl-pds">'</span>Andrew<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>Betty<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>Charles<span class="pl-pds">'</span></span>]);</span>
 <span class="pl-s2">&lt;/<span class="pl-ent">script</span>&gt;</span></pre></div>
+
+<p>You can also use the generator at site/index.html to compile your templates to javascript source code.</p>
+
+<h2>
+<a id="github-page" class="anchor" href="#github-page" aria-hidden="true"><span class="octicon octicon-link"></span></a>Github page</h2>
+
+<p><a href="http://joaoventura.github.io/temple.js/">http://joaoventura.github.io/temple.js/</a></p>
       </section>
     </div>
 
