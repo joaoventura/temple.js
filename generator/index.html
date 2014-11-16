@@ -1,0 +1,125 @@
+<html>
+<head>
+    <title>Templates</title>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="lib/temple.js"></script>
+
+    <!-- JS Beautify -->
+    <script type="text/javascript" src="lib/beautify.js"></script>
+
+    <!-- CodeMirror -->
+    <script src="lib/codemirror.js"></script>
+    <link rel="stylesheet" href="lib/codemirror.css">
+    <script src="mode/javascript/javascript.js"></script>
+    <script src="mode/htmlmixed/htmlmixed.js"></script>
+    <script src="mode/htmlembedded/htmlembedded.js"></script>
+    <script src="mode/xml/xml.js"></script>
+    <script src="mode/css/css.js"></script>
+
+</head>
+<body>
+
+    <h2>Temple.js - Template to function compiler</h2>
+
+    <div style=""/>
+        <button onclick="compile()">Compile</button>
+    </div>
+
+    <div id="in" style="width: 50%; height: 500px; float:left;">
+        <h3>templates.html</h3>
+        <textarea id="templates" style="">
+<!-- A function -->
+<function name='beautify' arg='name'>
+    return 'Beauty ' + name;
+</function>
+
+<!-- Returns the name -->
+<template name='message'  arg='name'>
+    Hello {{=this.beautify(name)}}
+</template>
+
+<!-- Greets the persons -->
+<template name='greet' arg='names'>
+    {{for (var i=0; i<names.length; i++) { }}
+        <li>{{=this.message(names[i])}}</li>
+    {{ } }}
+</template>
+
+<!-- Greets unordered -->
+<template name='ul' arg='names'>
+    <ul>
+        {{=this.greet(names)}}
+    </ul>
+</template>
+
+<!-- Greets by order of arrival -->
+<template name='ol' arg='names'>
+    <ol>
+        <!-- This is a comment -->
+        {{=this.greet(names)}}
+    </ol>
+</template>
+        </textarea>
+    </div>
+
+    <div id="out" style="width: 50%; height: 500px; float:right">
+        <h3>templates.js</h3>
+        <textarea id="outtemplates" style="width:100%; height:100%; padding:10px;">
+        </textarea>
+    </div>
+
+
+    <script type='text/javascript'>
+
+        function compile() {
+            var string = myCodeMirror.getDoc().getValue();
+            var templates = temple.buildString(string);
+            templates = beautify(templates);
+            myCodeMirror2.getDoc().setValue(templates);
+        }
+
+        function beautify(source) {
+
+            var output, opts = {};
+
+            opts.indent_size = 4;
+            opts.indent_char = opts.indent_size == 1 ? '\t' : ' ';
+            opts.max_preserve_newlines = 5;
+            opts.preserve_newlines = opts.max_preserve_newlines !== "-1";
+            opts.keep_array_indentation = false;
+            opts.break_chained_methods = false;
+            opts.indent_scripts = 'keep';
+            opts.brace_style = 'collapse';
+            opts.space_before_conditional = 'true';
+            opts.unescape_strings = 'false';
+            opts.jslint_happy = 'false';
+            opts.end_with_newline = 'true';
+            opts.wrap_line_length = '80';
+
+            output = js_beautify(source, opts);
+            return output;
+        }
+
+        // CodeMirror
+        var myCodeMirror = CodeMirror.fromTextArea(templates, {
+            lineNumbers: true,
+            mode: "htmlembedded",
+        });
+        myCodeMirror.setSize("100%", "100%");
+
+
+        var myCodeMirror2 = CodeMirror.fromTextArea(outtemplates, {
+            lineNumbers: true,
+            mode: "javascript",
+        });
+        myCodeMirror2.setSize("100%", "100%");
+
+        //First time compile
+        compile();
+
+
+
+    </script>
+
+</body>
+</html>
