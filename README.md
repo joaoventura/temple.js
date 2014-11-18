@@ -34,7 +34,7 @@ Use temple.js to load your templates and use them.
 
 ```javascript
 
-temple.fromURL('template.html', function (templates) {
+temple.fromURL('templates.html', function (templates) {
     var string = templates.greet(['Andrew', 'Betty', 'Charles']);
 });
 
@@ -60,7 +60,7 @@ Use temple.js to generate the javascript source code of your templates.
 
 ```javascript
 
-temple.sourceFromURL('template.html', 'mytemplates', function (source) {
+temple.sourceFromURL('templates.html', 'mytemplates', function (source) {
     console.log(source);
 });
 
