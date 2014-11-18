@@ -4,36 +4,41 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <title>Temple.js by joaoventura</title>
-
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
     <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
   </head>
   <body>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/joaoventura/temple.js">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/joaoventura/temple.js/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/joaoventura/temple.js/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
+
     <div class="wrapper">
-      <header>
-        <h1>Temple.js</h1>
-        <p>Sane web development with templates</p>
 
-        <p class="view"><a href="https://github.com/joaoventura/temple.js">View the Project on GitHub <small>joaoventura/temple.js</small></a></p>
-
-
-        <ul>
-          <li><a href="https://github.com/joaoventura/temple.js/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/joaoventura/temple.js/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/joaoventura/temple.js">View On <strong>GitHub</strong></a></li>
-        </ul>
-      </header>
       <section>
-        <h1>
-<a id="templejs" class="anchor" href="#templejs" aria-hidden="true"><span class="octicon octicon-link"></span></a>Temple.js</h1>
+        <div id="title">
+          <h1>Temple.js</h1>
+          <p>Sane web development with templates</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/joaoventura">joaoventura</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+        </div>
 
-<p><em>Sane web development with templates</em>.</p>
-
-<p>Temple.js is a small javascript library which helps you with the development of your templates.</p>
+        <p>Temple.js is a small javascript library which helps you with the development of your templates.</p>
 
 <p>You declare your templates inline or on external files, and use temple.js to load and compile them for you. When you are ready for production, compile your templates to javascript source code, and let temple.js get out of your way.</p>
 
@@ -231,12 +236,9 @@ The main difference between functions and templates, is that the content of func
 </li>
 </ul>
       </section>
-      <footer>
-        <p>This project is maintained by <a href="https://github.com/joaoventura">joaoventura</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
-      </footer>
+
     </div>
-    <script src="javascripts/scale.fix.js"></script>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
     
   </body>
 </html>
