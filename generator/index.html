@@ -28,36 +28,17 @@
     <div id="in" style="width: 50%; height: 500px; float:left;">
         <h3>templates.html</h3>
         <textarea id="templates" style="">
-<!-- A function -->
-<function name='beautify' arg='name'>
-    return 'Beauty ' + name;
-</function>
-
-<!-- Returns the name -->
-<template name='message'  arg='name'>
-    Hello {{=this.beautify(name)}}
+<template name='message' arg='name'>
+    <li>Hello {{=name}}</li>
 </template>
 
-<!-- Greets the persons -->
 <template name='greet' arg='names'>
-    {{for (var i=0; i<names.length; i++) { }}
-        <li>{{=this.message(names[i])}}</li>
-    {{ } }}
-</template>
-
-<!-- Greets unordered -->
-<template name='ul' arg='names'>
     <ul>
-        {{=this.greet(names)}}
+    {{var i=0;}}
+    {{for (i=0; i<names.length; i++) { }}
+        {{=this.message(names[i])}}
+    {{ } }}
     </ul>
-</template>
-
-<!-- Greets by order of arrival -->
-<template name='ol' arg='names'>
-    <ol>
-        <!-- This is a comment -->
-        {{=this.greet(names)}}
-    </ol>
 </template>
         </textarea>
     </div>

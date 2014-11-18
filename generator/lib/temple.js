@@ -1,18 +1,27 @@
 /*
 *  > temple.js
 *
-*  by João Ventura, Licensed under the MIT licence.
+*  Temple.js is a small javascript library for compiling templates into
+*  functions.
 *
-*  Temple.js is a template to function compiler.
-*  It parses templates and function definitions and exports them as regular
-*  javascript functions.
+*  It is most useful when you are developing templates for your web
+*  applications. You can define your templates inline or on external
+*  files, and use them as regular javascript functions.
 *
-*  Temple.js is most useful for the development of your project and when you are
-*  ready for production, just compile the templates to javascript, import the
-*  script and use it like another javascript file.
+*  Temple.js templates supports full javascript logic inside them, like
+*  declaring variables, invoking functions, use loops, etc.
 *
-*  The template compiler is adapted from doT.js by Laura Doktorova
-*  - https://github.com/olado/doT
+*  When you are ready for production, you can compile your templates to
+*  javascript source code, and import them like any other javascript file.
+*  The templates are just javascript functions, and are invoked the same
+*  way either in development or in production.
+*
+*
+*  The template compiler is adapted from doT.js by Laura Doktorova.
+*  - https://github.com/olado/doT/
+*
+*  Temple.js is developed by João Ventura and Licensed under the MIT licence.
+*  - https://github.com/joaoventura/temple.js
 *
 */
 
@@ -20,7 +29,10 @@
 var temple = (function() {
 
 
-    /* === Compiler === */
+
+    /************************
+    *       Compiler        *
+    ************************/
 
     var compiler = {
 		templateSettings: {
@@ -109,11 +121,13 @@ var temple = (function() {
 
 
 
+    /************************
+    *         Parser        *
+    ************************/
 
-    /* === Parser === */
-
-    // Returns all start/end occurrences of a tag element
+    // Returns all (start / end) occurrences of a tag element.
     function findAllElements(string, tag) {
+
         var pos = [];
         var curr = 0, start = -1, end = -1;
         while (curr >= 0) {
@@ -130,7 +144,7 @@ var temple = (function() {
         return pos;
     }
 
-    // Parses header of an element
+    // Parses the header of an element.
     function parseHeader(header) {
 
         var element = {}
@@ -149,12 +163,14 @@ var temple = (function() {
         return element
     }
 
-    // Parses an element
+    // Parses an element.
     function parseElement(string) {
+
         // Header
         var headerStart = string.indexOf('<') + 1;
         var headerEnd = string.indexOf('>');
         var element = parseHeader(string.slice(headerStart, headerEnd));
+
         // Body
         var bodyStart = headerEnd + 1;
         var bodyEnd = string.lastIndexOf('<');
@@ -162,7 +178,7 @@ var temple = (function() {
         return element;
     }
 
-    // Parses a string with templates and functions
+    // Parses a string with templates and functions.
     function parse(string) {
 
         var elements = [];
@@ -189,10 +205,14 @@ var temple = (function() {
     }
 
 
-    /* === Builder === */
 
-    // Parses and compiles a string with templates and functions
+    /************************
+    *       Builders        *
+    ************************/
+
+    // Returns compiled templates from a string with templates.
     function build(string) {
+
         var result = {};
         var elements = parse(string);
         for (var i=0; i<elements.length; i++) {
@@ -206,18 +226,19 @@ var temple = (function() {
         return result;
     }
 
-    // Parses and compiles a string with templates and functions
-    // Returns a string with the javascript code
-    function buildString(string, objectName) {
-        objectName = objectName || 'templates';
-        var result = 'var ' + objectName + ' = {};\n';
+    // Returns the JS source code from a string with templates.
+    // The namespace is an argument.
+    function buildString(string, namespace) {
+
+        namespace = namespace || 'templates';
+        var result = 'var ' + namespace + ' = {};\n';
         var elements = parse(string);
         for (var i=0; i<elements.length; i++) {
             var element = elements[i];
             if (element.type === 'template') {
-                result += objectName + '.' + element.name +' = function(' + element.arg+ ') {' + compile(element.body) + '};\n';
+                result += namespace + '.' + element.name +' = function(' + element.arg+ ') {' + compile(element.body) + '};\n';
             } else if (element.type === 'function') {
-                result += objectName + '.' + element.name + ' = function(' + element.arg+ ') {' + element.body + '};\n';
+                result += namespace + '.' + element.name + ' = function(' + element.arg+ ') {' + element.body + '};\n';
             }
         }
         return result;
@@ -225,59 +246,116 @@ var temple = (function() {
 
 
 
-    /* === Loaders === */
+    /************************
+    *     String Loaders    *
+    ************************/
 
-    // Loads a string from an element ID and returns compiled functions
-    function fromID(id) {
-        var element = document.getElementById(id);
-        var string = element.text;
-        if (string === undefined)
-            string = element.value;
-        return build(string);
-    }
+    // Loads the string contents of all elements given their ID.
+    // Returns contents as array of strings.
+    function loadStringsFromIDs(IDs) {
 
-    // Loads a string from a url and returns compiled functions
-    function fromURL(url, callback) {
-        var request = new XMLHttpRequest();
-        request.open('GET', url);
-        request.onreadystatechange = function() {
-            if (request.readyState == 4 && request.status == 200) {
-                var string = request.responseText;
-                callback(build(string));
+        var strings = [];
+        for (var i=0; i<IDs.length; i++) {
+            var element = document.getElementById(IDs[i]);
+            var string = element.text;
+            if (string === undefined) {
+                string = element.value;
             }
-        };
-        request.send();
+            strings[i] = string;
+        }
+        return strings;
     }
 
-    // Loads a string from an element ID and returns compiled strings
-    function stringFromID(id) {
-        var element = document.getElementById(id);
-        var string = element.text;
-        if (string === undefined)
-            string = element.value;
-        return buildString(string);
+    // Loads the string contents of all files given their URL.
+    // Returns contents as array of strings through the callback.
+    function loadStringsFromURLs(URLs, callback) {
+
+        var strings = [];
+        var requests = [];
+        var done = 0;
+
+        for (var i=0; i<URLs.length; i++) {
+            requests[i] = new XMLHttpRequest();
+            requests[i].open('GET', URLs[i]);
+            requests[i].onreadystatechange = function(i) {
+
+                return function() {
+                    if (requests[i].readyState == 4) {
+                        done += 1;
+                        strings[i] = '';
+                        if (requests[i].status == 200) {
+                            strings[i] = requests[i].responseText;
+                        }
+                    }
+                    if (done === URLs.length) {
+                        callback(strings);
+                    }
+                };
+            }(i);
+            requests[i].send();
+        }
     }
 
-    // Loads a string from a url and returns compiled strings
-    function stringFromURL(url, callback) {
-        var request = new XMLHttpRequest();
-        request.open('GET', url);
-        request.onreadystatechange = function() {
-            if (request.readyState == 4 && request.status == 200) {
-                var string = request.responseText;
-                callbackString(build(string));
-            }
-        };
-        request.send();
+
+
+    /************************
+    *     Public Loaders    *
+    ************************/
+
+    // Returns built templates from element or array of elements.
+    function fromID(param) {
+
+        var IDs = (param instanceof Array) ? param : [param];
+        var strings = loadStringsFromIDs(IDs);
+        strings = strings.join('\n');
+        return build(strings);
+    }
+
+    // Returns built templates from url or array of urls.
+    function fromURL(param, callback) {
+
+        var URLs = (param instanceof Array) ? param : [param];
+        loadStringsFromURLs(URLs, function (strings) {
+            strings = strings.join('\n');
+            callback(build(strings));
+        });
+    }
+
+    // Returns template source code from element or array of elements.
+    // Accepts the ID or Array of IDs and the namespace.
+    function sourceFromID(param, namespace) {
+
+        var IDs = (param instanceof Array) ? param : [param];
+        var strings = loadStringsFromIDs(IDs);
+        strings = strings.join('\n');
+        return buildString(strings, namespace);
+    }
+
+    // Returns template source code from url or array of urls.
+    // Accepts the URL or Array of URLs, the namespace and callback.
+    function sourceFromURL(param, namespace, callback) {
+
+        var URLs = (param instanceof Array) ? param : [param];
+        loadStringsFromURLs(URLs, function (strings) {
+            strings = strings.join('\n');
+            callback(buildString(strings, namespace));
+        });
     }
 
 
+
+    /************************
+    *    Public functions   *
+    ************************/
 
     return {
+        // Loaders
         fromID: fromID,
         fromURL: fromURL,
-        stringFromID: stringFromID,
-        stringFromURL: stringFromURL,
+        sourceFromID: sourceFromID,
+        sourceFromURL: sourceFromURL,
+
+        // Builders
         build: build,
         buildString: buildString,
     };
