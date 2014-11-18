@@ -204,9 +204,11 @@ Notice how we must use the `this` keyword to reference the *message* template, a
 
 ### Template locations
 
-You can define one or more templates inside the html document (for instance, inside a script element with the text attribute to something other than 'text/javascript'), or on an external file.
+You can define one or more templates inside the html document (for instance, inside a script element with the text attribute to something other than 'text/javascript'), or on an external file. For external files, use `fromURL(url, callback)` to load the external file asynchronously.
 
-For external files, use `fromURL(url, callback)` to load the external file asynchronously. Check the samples for more examples for loading templates and functions inline or from external files.
+When you need greater modularity, you can create multiple template files (or elements) and use them under the same namespace. You just need to declare them when loading your templates, using for instance `fromURL(['template1.html' ,'template2.html'], function(mytemplates) {});`.
+
+Check the samples for more examples for loading templates and functions inline, or from external files.
 
 
 ### Public functions
