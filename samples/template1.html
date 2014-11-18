@@ -1,0 +1,11 @@
+<template name='message' arg='name'>
+    <li>Hello {{=name}}</li>
+</template>
+
+<template name='greet' arg='names'>
+    <ul>
+    {{for (var i=0; i < names.length; i++) { }}
+        {{=this.message(names[i])}}
+    {{ } }}
+    </ul>
+</template>

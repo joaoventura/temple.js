@@ -1,0 +1,25 @@
+<!-- This template references another template declared in 'template1.html' -->
+
+<template name='orderedGreet' arg='names'>
+    <ol>
+    {{for (var i=0; i < names.length; i++) { }}
+        {{=this.message(names[i])}}
+    {{ } }}
+    </ol>
+</template>
+
+
+<!-- A template with javascript logic -->
+<template name='someLogic' arg='param'>
+    <!-- Declare a variable -->
+    {{var myvar = 0;}}
+
+    <!-- Invoke a function -->
+    {{=this.myFunction()}}
+
+    <!-- Invoke a template (templates are compiled to functions) -->
+    {{=this.orderedGreet(param)}}
+
+    <!-- .... -->
+
+</template>

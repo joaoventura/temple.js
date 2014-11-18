@@ -1,0 +1,71 @@
+<html>
+<head>
+    <title>Temple.js Samples</title>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="../temple.js"></script>
+</head>
+<body>
+
+    <h2>Temple.js - Samples</h2>
+
+    <!-- Declare some inline templates -->
+    <script id='template1' type='text/template'>
+        <template name='message' arg='name'>
+            <li>Hello {{=name}}</li>
+        </template>
+
+        <template name='greet' arg='names'>
+            <ul>
+            {{for (var i=0; i < names.length; i++) { }}
+                {{=this.message(names[i])}}
+            {{ } }}
+            </ul>
+        </template>
+    </script>
+
+    <script id='template2' type='text/template'>
+        <!-- This template references another template that is
+             declared in 'template1' -->
+
+        <template name='orderedGreet' arg='names'>
+            <ol>
+            {{for (var i=0; i < names.length; i++) { }}
+                {{=this.message(names[i])}}
+            {{ } }}
+            </ol>
+        </template>
+    </script>
+
+
+    <script type='text/javascript'>
+
+        // Load templates from <template1>
+        var templates = temple.fromID('template1');
+
+        // And use the 'greet' template
+        templates.greet(['Andrew', 'Betty', 'Charles']);
+
+        // Load templates from <template1> and <template2> into one namespace
+        var templates = temple.fromID(['template1', 'template2']);
+        templates.orderedGreet(['Andrew', 'Betty', 'Charles']);
+
+        // Load two templates from external files into one namespace
+        temple.fromURL(['template1.html', 'template2.html'], function (templates) {
+            var str = templates.orderedGreet(['Andrew', 'Betty', 'Charles']);
+            console.log(str);
+        });
+
+        // We can also generate the source code from the inline templates
+        // where 'mytemplate' is the namespace of the source code
+        var source = temple.sourceFromID(['template1', 'template2'], 'mytemplate');
+        console.log(source);
+
+        // And also from the external templates
+        temple.sourceFromURL(['template1.html', 'template2.html'], 'mytemplate', function (source) {
+            console.log(source);
+        });
+
+    </script>
+
+</body>
+</html>
