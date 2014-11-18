@@ -207,24 +207,23 @@ You can define one or more templates inside the html document (for instance, ins
 For external files, use `fromURL(url, callback)` to load the external file asynchronously. Check the samples for more examples for loading templates and functions inline or from external files.
 
 
-### Temple.js functions
+### Public functions
 
-* *fromID(id)*: Loads templates given an element ID (or array of IDs) and returns them as ready-to-use functions.
+* `fromID(id)`: Loads templates given an element ID (or array of IDs) and returns them as ready-to-use functions.
 
-* *fromURL(url, callback)*: Loads templates from an url (or array of urls) and returns them as ready-to-use functions.
+* `fromURL(url, callback)`: Loads templates from an url (or array of urls) and returns them as ready-to-use functions.
 
-* *sourceFromID(id, namespace)*: Loads templates given an element ID (or array of IDs) and returns them as javascript source code with a given namespace, so that they can be used in production.
+* `sourceFromID(id, namespace)`: Loads templates given an element ID (or array of IDs) and returns them as javascript source code with a given namespace, so that they can be used in production.
 
-* *sourceFromURL(url, namespace, callback)*: Loads templates from an url (or array of urls) and returns them as javascript source code with a given namespace, so that they can be used in production.
+* `sourceFromURL(url, namespace, callback)`: Loads templates from an url (or array of urls) and returns them as javascript source code with a given namespace, so that they can be used in production.
 
-* *build(string)*: Parses a string with templates and returns them as compiled javascript.
+* `build(string)`: Parses a string with templates and returns them as compiled javascript.
 
-* *buildString(string)*: Parses a string with templates and returns them as javascript source code.
+* `buildString(string)`: Parses a string with templates and returns them as javascript source code.
 
 
 
-## Github page
+## Resources:
 
-Page: http://joaoventura.github.io/temple.js/
-
-Online generator: http://joaoventura.github.io/temple.js/generator/index.html
+* Github Page: http://joaoventura.github.io/temple.js/
+* Online generator: http://joaoventura.github.io/temple.js/generator/index.html
