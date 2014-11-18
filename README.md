@@ -3,7 +3,9 @@ Temple.js
 
 *Sane web development with templates*.
 
-Temple.js is a small javascript library which helps you with the development of your templates. You declare your templates inline or on external files, and use temple.js to load and compile them for you. When you are ready for production, compile your templates to javascript source code, and let temple.js get out of your way.
+Temple.js is a small javascript library which helps you with the development of your templates.
+
+You declare your templates inline or on external files, and use temple.js to load and compile them for you. When you are ready for production, compile your templates to javascript source code, and let temple.js get out of your way.
 
 Temple.js templates support Javascript logic inside. You can declare variables, invoke functions and use for loops inside the templates. They are pretty powerfull!
 
